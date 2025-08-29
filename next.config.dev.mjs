@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/app/app1', // Add this line for Azure deployment
+  // No basePath for local development
 };
 
 export default nextConfig;

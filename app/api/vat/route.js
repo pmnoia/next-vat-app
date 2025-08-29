@@ -1,32 +1,32 @@
 // REVISE THIS PART
 
 export async function GET(request) {
-    const rate = 0.07;
     const { searchParams } = new URL(request.url);
-    const amount = parseFloat(searchParams.get('amount'));
-    let vat = null;
+    const amount = parseFloat(searchParams.get("amount") || "0");
+    const rate = parseFloat(process.env.VAT_RATE)
 
-    if (!isNaN(amount)) {
-        vat = amount * rate;
-        return Response.json({ rate, amount, vat });
-    } else {
-        return Response.json({ rate, error: "Invalid amount" });
-    }
+    if (isNaN(amount)) {
+        return new Response(JSON.stringify({error: "Invalid amount"}), {
+            status: 400,
+            headers: {'Content-Type': 'application/json'},
+        })
+    };
 
+    const vat = +(amount * rate).toFixed(2);
+    return Response.json({ rate, amount, vat});
 }
 
 export async function POST(request) {
     const { amount } = await request.json();
-    const rate = 0.07;
+    const rate = parseFloat(process.env.VAT_RATE);
+
     if (isNaN(amount)) {
-        return new Response(JSON.stringify({ error: 'Invalid amount' }), {
+        return new Response(JSON.stringify({error: "Invalid amount"}), {
             status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
-    }
-    const vat = (amount * rate).toFixed(2);
-    return new Response(
-        JSON.stringify({ rate, amount, vat }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );    
+            headers: {'Content-Type': 'application/json'},
+        })
+    };
+
+    const vat = +(amount * rate).toFixed(2);
+    return Response.json({rate, amount, vat});
 }

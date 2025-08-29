@@ -1,19 +1,28 @@
 // REVISE THIS PART 
 
 export async function GET(request, { params }) {
-    const amount = parseFloat(params.amount);
+    const amount = parseFloat(params.amount || "0");
+    const rate = parseFloat(process.env.VAT_RATE);
+
     if (isNaN(amount)) {
-        return new Response(JSON.stringify({ error: 'Invalid amount' }), {
+        return new Response(JSON.stringify({error: "Invalid amount"}), {
             status: 400,
-            headers: { 'Content-Type': 'application/json' },
-        });
-    }
+            headers: {'Content-Type': 'application/json'},
+        })
+    };
 
-    const vatRate = 0.07; // 7% VAT
-    const vat = +(amount * vatRate).toFixed(2);
+    const vat = +(amount * rate).toFixed(2);
+    return Response.json({rate, amount, vat});
 
-    return new Response(
-        JSON.stringify({ rate, amount, vat }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    // if (isNaN(amount)) {
+    //     return new Response(JSON.stringify({ error: 'Invalid amount' }), {
+    //         status: 400,
+    //         headers: { 'Content-Type': 'application/json' },
+    //     });
+    // }
+
+    // return new Response(
+    //     JSON.stringify({ rate, amount, vat }),
+    //     { status: 200, headers: { 'Content-Type': 'application/json' } }
+    // );
 }

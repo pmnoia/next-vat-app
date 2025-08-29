@@ -1,3 +1,4 @@
 export async function GET() {
-    return Response.json({rate: 0.07})
+    const rate = parseFloat(process.env.VAT_RATE)
+    return Response.json({rate})
 }

@@ -3,7 +3,7 @@
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const amount = parseFloat(searchParams.get("amount") || "0");
-    const rate = parseFloat(process.env.VAT_RATE)
+    const rate = parseFloat(process.env.VAT_RATE || 0.7)
 
     if (isNaN(amount)) {
         return new Response(JSON.stringify({error: "Invalid amount"}), {

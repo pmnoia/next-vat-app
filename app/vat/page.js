@@ -37,7 +37,7 @@ export default function Vat() {
             <h1 className="text-2xl font-bold text-center mb-6">VAT Calculator</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label className="font-semibold">
-                    VAT RATE = {rate * 100}%
+                    VAT RATE = {(rate * 100).toFixed(2)}%
                 </label>
                 <br />
                 <label className="flex items-center gap-2">

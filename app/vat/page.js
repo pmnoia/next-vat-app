@@ -23,7 +23,7 @@ export default function Vat() {
         e.preventDefault();
         const numPrice = parseFloat(price);
         if (!isNaN(numPrice)) {
-            const calculatedVat = (numPrice * rate) / 100;
+            const calculatedVat = numPrice * rate;
             setVat(calculatedVat);
             setTotal(numPrice + calculatedVat)
         } else {
@@ -37,7 +37,7 @@ export default function Vat() {
             <h1 className="text-2xl font-bold text-center mb-6">VAT Calculator</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label className="font-semibold">
-                    VAT RATE = {rate}%
+                    VAT RATE = {rate * 100}%
                 </label>
                 <br />
                 <label className="flex items-center gap-2">

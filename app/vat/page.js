@@ -13,11 +13,11 @@ export default function Vat() {
     }, []);
 
     async function fetchVatRate() {
-        const response = await fetch('/api/vat/rate');
-        const data = await response.json();
-        console.log('Vat Rate: ', data.rate);
-        setRate(data.rate);
-    }
+    const basePath = process.env.NEXT_PUBLIC_APP_VAT_API_BASE || '';
+    const response = await fetch(`${basePath}/api/vat/rate`);
+    const data = await response.json();
+    setRate(data.rate);
+}
 
     function handleSubmit(e) {
         e.preventDefault();
